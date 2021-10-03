@@ -1,0 +1,177 @@
+/*!***********************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js?url=false!./node_modules/sass-loader/dist/cjs.js!./src/scss/main.scss ***!
+  \***********************************************************************************************************************/
+  @charset "UTF-8";
+  /* Указываем box sizing */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box; }
+  
+  /* Убираем внешние отступы */
+  body,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  ul,
+  ol,
+  li,
+  figure,
+  figcaption,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+    padding: 0;
+    border: none; }
+  
+  /* Выставляем основные настройки по-умолчанию для body */
+  body {
+    min-height: 100vh;
+    line-height: 1.2; }
+  
+  /* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+  ul[class],
+  ol[class] {
+    list-style: none; }
+  
+  /* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+  a:not([class]) {
+    text-decoration-skip-ink: auto; }
+  
+  /* Упрощаем работу с изображениями */
+  img {
+    max-width: 100%;
+    display: block; }
+  
+  /* Наследуем шрифты для инпутов и кнопок */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit; }
+  
+  button {
+    cursor: pointer;
+    outline: none; }
+  
+  * {
+    background: inherit;
+    outline: none; }
+  
+  .title {
+    margin-top: 60px;
+    width: min-content;
+    margin-bottom: 20px; }
+  
+  .container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto; }
+  
+  .todos__filters {
+    display: flex;
+    width: 100%;
+    max-width: 280px;
+    justify-content: space-between; }
+  
+  .filter__button {
+    border: none;
+    background: none; }
+  
+  .current {
+    color: #d97b00; }
+  
+  .todo__input {
+    margin-top: 5px;
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 10px;
+    border: 1px solid #000; }
+  
+  .todo {
+    margin-top: 10px;
+  }
+  
+  .todo_active {
+    display: initial; }
+  
+  .todo__container {
+    position: relative;
+    border: 1px solid #000;
+    border-radius: 10px;
+    min-height: 30px;
+    width: 100%; }
+  
+  .todo__container_active {
+    display: flex;
+    align-items: center; }
+  
+  .todo__button-complete {
+    border: none;
+    background: none; }
+  
+  .todo__text {
+    width: 100%;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+    padding-left: 10px;
+    border-left: black 1px solid; }
+  
+  .todo_complete .todo__container .todo__text {
+    text-decoration: line-through;
+    color: #999; }
+  
+  .todo_complete .todo__container .todo__button-complete {
+    color: #33af33; }
+  
+  .todo__button-delete {
+    border-radius: 100%;
+    border: 0px;
+    font-size: 20px;
+    padding-left: 2px;
+    height: 100%; }
+  
+  .todo__container_active:not(:hover) .todo__button-delete {
+    display: none; }
+  
+  .todos {
+    display: flex;
+    flex-direction: column; }
+  
+  .todos.todos_completed .todo_incomplete {
+    display: none; }
+  
+  .todos.todos_incompleted .todo_complete {
+    display: none; }
+  
+  .todos__completed {
+    margin: 10px 0; }
+  
+  .todo__change-label {
+    width: 100%;
+    height: 30px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding-left: 35px; }
+  
+  .todo__change-label_active {
+    display: initial; }
+  
+  .todo__delete-completed {
+    display: flex;
+    align-items: center; 
+    border: none;
+    background-color: #ccc;
+    border-radius: 25px;
+    height: 20px;
+    line-height: 0px; }
+  
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
