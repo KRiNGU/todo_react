@@ -1,85 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import ToDo from '../ToDo/ToDo.jsx';
-import '../style.css';
+import React, { useEffect, useState } from "react";
+import ToDo from "./ToDo/ToDo.jsx";
+import "../style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addToDo, deleteCompletedToDos } from "../redux/ToDoList/slices.js";
 
-export default function ToDoList(props) {
-    const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) ?? []);
-    const [inputToDo, setInputToDo] = useState('');
-    const [completedNum, setCompletedNum] = useState(todos.reduce((prevState, todo) => todo.isComplete ? prevState + 1 : prevState, 0));
+export default function ToDoList() {
+  const todos = useSelector((state) => state.todo.todos);
+  const completedNum = useSelector((state) => state.todo.todos).filter(
+    (todo) => todo.isComplete === true
+  ).length;
+  const filter = useSelector((state) => state.filter.filter);
+  const [inputToDo, setInputToDo] = useState("");
 
-    useEffect(() => localStorage.setItem('todos', JSON.stringify(todos)));
+  const dispatch = useDispatch();
+  useEffect(() => localStorage.setItem("todos", JSON.stringify(todos)));
 
-    const handleEditToDoText = (id, text) => {
-        setTodos(todos.map(todo => todo.id === id ? {...todo, text} : todo));
+  const handleAddToDo = () => {
+    const newToDoName = inputToDo.trim();
+    if (newToDoName !== "") {
+      dispatch(addToDo({ text: newToDoName, id: Date.now() }));
     }
+    setInputToDo("");
+  };
 
-    const handleDeleteToDo = (id) => { 
-        setTodos(todos.filter(todo => todo.id !== id));
+  const handleClick = (e) => {
+    if (e.code === "Enter") {
+      handleAddToDo();
     }
+  };
 
-    const handleComplete = (id, newIsComplete) => {
-        if (newIsComplete)  {
-            setCompletedNum((prevState) => prevState + 1);
-        } else {
-            setCompletedNum((prevState) => prevState - 1)
-        }
-        setTodos(todos.map(todo => todo.id === id ? {...todo, isComplete: newIsComplete} : todo));
-    }
-
-    const handleAddToDo = () => {
-        const newToDoName = inputToDo.trim();
-        if (newToDoName !== '') {
-            const newToDo = {text: newToDoName, isComplete: false, id: Date.now()};
-            setTodos(prevState => ([...prevState, newToDo]));
-        }
-        setInputToDo('');
-    }
-
-    const handleClick = (e) => {
-        if (e.code === 'Enter') {
-            handleAddToDo();
-        }
-    }
-
-    const handleDeleteCompleted = () => {
-        setTodos(todos.filter(todo => todo.isComplete === false));
-        setCompletedNum(0);
-    }
-
-    return(
-        <>
-            <input
-                className="todo__input"
-                type="text"
-                placeholder="What needs to be done"
-                value={inputToDo}
-                onChange={(e) => setInputToDo(e.target.value)}
-                onKeyDown={handleClick}
-            />
-            <ul type="none" className={`todos ${props.currentFilter === 'all' 
-                                                ? '' : props.currentFilter === 'completed' 
-                                                ? 'todos_completed' : 'todos_incompleted'}`
-                                      }
-            >
-                {todos.map((todo, index) => (
-                    <ToDo
-                        key={todo.id}
-                        text={todo.text}
-                        isComplete={todo.isComplete}
-                        handleComplete={(isComplete) => handleComplete(todo.id, isComplete)}
-                        handleDelete={() => handleDeleteToDo(todo.id)}
-                        handleEditText={(text) => handleEditToDoText(todo.id, text)}
-                    />) 
-                )}
-            </ul>
-            <footer className="footer">
-                <div className="todos__completed">
-                Completed: <span className="completed__number">{completedNum}</span>
-                </div>
-                {completedNum !== 0 && (
-                    <button className="button todo__delete-completed" onClick={handleDeleteCompleted}>Delete completed</button>
-                )}
-            </footer>
-        </>
-    )
+  return (
+    <>
+      <input
+        className="todo__input"
+        type="text"
+        placeholder="What needs to be done"
+        value={inputToDo}
+        onChange={(e) => setInputToDo(e.target.value)}
+        onKeyDown={handleClick}
+      />
+      <ul type="none" className={`todos ${filter}`}>
+        {todos.map((todo) => (
+          <ToDo
+            key={todo.id}
+            text={todo.text}
+            id={todo.id}
+            isComplete={todo.isComplete}
+          />
+        ))}
+      </ul>
+      <footer className="footer">
+        <div className="todos__completed">
+          Completed: <span className="completed__number">{completedNum}</span>
+        </div>
+        {completedNum !== 0 && (
+          <button
+            className="button todo__delete-completed"
+            onClick={() => dispatch(deleteCompletedToDos())}
+          >
+            Delete completed
+          </button>
+        )}
+      </footer>
+    </>
+  );
 }

@@ -59,7 +59,9 @@
   
   * {
     background: inherit;
-    outline: none; }
+    outline: none;
+    font-family: 'Times New Roman', sans-serif;
+  }
   
   .title {
     margin-top: 60px;
