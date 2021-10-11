@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  filter: localStorage.getItem("filter") ?? "",
+  filter: localStorage.getItem('filter') ?? 'all',
 };
 
 export const filter = createSlice({
-  name: "filter",
+  name: 'filter',
   initialState: initialState,
   reducers: {
     editFilter: (state, { payload }) => {

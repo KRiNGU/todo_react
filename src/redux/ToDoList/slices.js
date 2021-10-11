@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  todos: JSON.parse(localStorage.getItem("todos")) ?? [],
+  todos: JSON.parse(localStorage.getItem('todos')) ?? [],
 };
 
 export const todos = createSlice({
-  name: "todos",
+  name: 'todos',
   initialState,
   reducers: {
     deleteToDo: (state, { payload }) => {
@@ -17,7 +17,7 @@ export const todos = createSlice({
       newToDosArray.push(newToDo);
       state.todos = newToDosArray;
     },
-    deleteCompletedToDos: (state, _) => {
+    deleteCompletedToDos: (state) => {
       state.todos = state.todos.filter((todo) => todo.isComplete === false);
     },
     toggleComplete: (state, { payload }) => {

@@ -1,30 +1,50 @@
-import React, { useEffect, useState } from "react";
-import ToDo from "./ToDo/ToDo.jsx";
-import "../style.css";
-import { useDispatch, useSelector } from "react-redux";
-import { addToDo, deleteCompletedToDos } from "../redux/ToDoList/slices.js";
+import React, { useEffect, useState } from 'react';
+import ToDo from './ToDo/ToDo.jsx';
+import '../style.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToDo, deleteCompletedToDos } from '../redux/ToDoList/slices.js';
 
-export default function ToDoList() {
+const ToDoList = () => {
   const todos = useSelector((state) => state.todo.todos);
   const completedNum = useSelector((state) => state.todo.todos).filter(
     (todo) => todo.isComplete === true
   ).length;
   const filter = useSelector((state) => state.filter.filter);
-  const [inputToDo, setInputToDo] = useState("");
+
+  let shownTodos = [];
+  switch (filter) {
+    case 'all':
+      shownTodos = todos;
+      break;
+    case 'completed':
+      shownTodos = todos.filter((todo) => todo.isComplete);
+      break;
+    case 'incompleted':
+      shownTodos = todos.filter((todo) => !todo.isComplete);
+      break;
+    default:
+      shownTodos = todos;
+      break;
+  }
+
+  const [inputToDo, setInputToDo] = useState('');
 
   const dispatch = useDispatch();
-  useEffect(() => localStorage.setItem("todos", JSON.stringify(todos)));
+  useEffect(
+    () => localStorage.setItem('todos', JSON.stringify(todos)),
+    [todos]
+  );
 
   const handleAddToDo = () => {
     const newToDoName = inputToDo.trim();
-    if (newToDoName !== "") {
+    if (newToDoName) {
       dispatch(addToDo({ text: newToDoName, id: Date.now() }));
     }
-    setInputToDo("");
+    setInputToDo('');
   };
 
   const handleClick = (e) => {
-    if (e.code === "Enter") {
+    if (e.code === 'Enter') {
       handleAddToDo();
     }
   };
@@ -39,8 +59,8 @@ export default function ToDoList() {
         onChange={(e) => setInputToDo(e.target.value)}
         onKeyDown={handleClick}
       />
-      <ul type="none" className={`todos ${filter}`}>
-        {todos.map((todo) => (
+      <ul className={`todos ${filter}`}>
+        {shownTodos.map((todo) => (
           <ToDo
             key={todo.id}
             text={todo.text}
@@ -64,4 +84,6 @@ export default function ToDoList() {
       </footer>
     </>
   );
-}
+};
+
+export default ToDoList;

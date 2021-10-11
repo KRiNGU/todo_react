@@ -1,13 +1,13 @@
-import "../../style.css";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import '../../style.css';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   deleteToDo,
   toggleComplete,
   editToDoText,
-} from "../../redux/ToDoList/slices";
+} from '../../redux/ToDoList/slices';
 
-export default function ToDo(props) {
+const ToDo = (props) => {
   const [isInput, setIsInput] = useState(false);
   const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ export default function ToDo(props) {
   };
 
   const handleKeyDown = (e) => {
-    if (e.code === "Enter" || e.code === "Escape") {
+    if (e.code === 'Enter' || e.code === 'Escape') {
       setIsInput(false);
       handleEditText(props.text);
     }
@@ -30,7 +30,7 @@ export default function ToDo(props) {
     <li
       type="none"
       className={`todo todo_active ${
-        props.isComplete ? "todo_complete" : "todo_incomplete"
+        props.isComplete ? 'todo_complete' : 'todo_incomplete'
       }`}
     >
       {isInput && (
@@ -41,7 +41,7 @@ export default function ToDo(props) {
           onBlur={() => {
             setIsInput(false);
             handleEditText(props.text);
-            if (props.text.trim() === "") {
+            if (!props.text.trim()) {
               handleDelete();
             }
           }}
@@ -51,12 +51,12 @@ export default function ToDo(props) {
         />
       )}
       {!isInput && (
-        <div className={`todo__container todo__container_active`}>
+        <div className={'todo__container todo__container_active'}>
           <button
             className="button todo__button-complete"
             onClick={() => dispatch(toggleComplete({ id: props.id }))}
           >
-            {props.isComplete ? "Y" : "N"}
+            {props.isComplete ? 'Y' : 'N'}
           </button>
           <div className="todo__text" onDoubleClick={() => setIsInput(true)}>
             {props.text}
@@ -68,4 +68,6 @@ export default function ToDo(props) {
       )}
     </li>
   );
-}
+};
+
+export default ToDo;

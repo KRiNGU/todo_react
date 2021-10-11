@@ -1,23 +1,27 @@
-import React from "react";
-import "../style.css";
-import { editFilter } from "../redux/Filter/slices";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect } from 'react';
+import '../style.css';
+import { editFilter } from '../redux/Filter/slices';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Filter() {
+const Filter = () => {
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.filter.filter);
-  localStorage.setItem("filter", filter);
 
-  const handleEditFilter = (filter) => dispatch(editFilter({ filter }));
+  useEffect(() => localStorage.setItem('filter', filter), [filter]);
+
+  const handleEditFilter = useCallback(
+    (filter) => dispatch(editFilter({ filter })),
+    [dispatch]
+  );
 
   return (
     <ul className="todos__filters">
       <li className="filter">
         <button
           className={`button filter__button all ${
-            filter === "" ? "current" : ""
+            filter === 'all' ? 'current' : ''
           }`}
-          onClick={() => handleEditFilter("")}
+          onClick={() => handleEditFilter('all')}
         >
           All
         </button>
@@ -25,9 +29,9 @@ export default function Filter() {
       <li className="filter">
         <button
           className={`button filter__button completed ${
-            filter === "todos_completed" ? "current" : ""
+            filter === 'completed' ? 'current' : ''
           }`}
-          onClick={() => handleEditFilter("todos_completed")}
+          onClick={() => handleEditFilter('completed')}
         >
           Completed
         </button>
@@ -35,13 +39,15 @@ export default function Filter() {
       <li className="filter">
         <button
           className={`button filter__button incompleted ${
-            filter === "todos_incompleted" ? "current" : ""
+            filter === 'incompleted' ? 'current' : ''
           }`}
-          onClick={() => handleEditFilter("todos_incompleted")}
+          onClick={() => handleEditFilter('incompleted')}
         >
           Incompleted
         </button>
       </li>
     </ul>
   );
-}
+};
+
+export default Filter;
