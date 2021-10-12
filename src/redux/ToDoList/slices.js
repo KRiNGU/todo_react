@@ -18,7 +18,7 @@ export const todos = createSlice({
       state.todos = newToDosArray;
     },
     deleteCompletedToDos: (state) => {
-      state.todos = state.todos.filter((todo) => todo.isComplete === false);
+      state.todos = state.todos.filter((todo) => todo.isComplete);
     },
     toggleComplete: (state, { payload }) => {
       state.todos = state.todos.map((todo) =>

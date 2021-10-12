@@ -7,7 +7,7 @@ import { addToDo, deleteCompletedToDos } from '../redux/ToDoList/slices.js';
 const ToDoList = () => {
   const todos = useSelector((state) => state.todo.todos);
   const completedNum = useSelector((state) => state.todo.todos).filter(
-    (todo) => todo.isComplete === true
+    (todo) => todo.isComplete
   ).length;
   const filter = useSelector((state) => state.filter.filter);
 
