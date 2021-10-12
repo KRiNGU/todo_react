@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, memo } from 'react';
 import '../style.css';
 import { editFilter } from '../redux/Filter/slices';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,4 +50,4 @@ const Filter = () => {
   );
 };
 
-export default Filter;
+export default memo(Filter);

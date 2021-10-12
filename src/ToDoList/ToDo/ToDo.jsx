@@ -1,5 +1,5 @@
 import '../../style.css';
-import React, { useState } from 'react';
+import React, { useCallback, useState, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   deleteToDo,
@@ -11,20 +11,20 @@ const ToDo = (props) => {
   const [isInput, setIsInput] = useState(false);
   const dispatch = useDispatch();
 
-  const handleEditText = (text) => {
+  const handleEditText = useCallback((text) => {
     dispatch(editToDoText({ text, id: props.id }));
-  };
+  }, [dispatch, props.id]);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     dispatch(deleteToDo({ id: props.id }));
-  };
+  }, [dispatch, props.id]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.code === 'Enter' || e.code === 'Escape') {
       setIsInput(false);
       handleEditText(props.text);
     }
-  };
+  }, [handleEditText, setIsInput, props.text]);
 
   return (
     <li
@@ -70,4 +70,4 @@ const ToDo = (props) => {
   );
 };
 
-export default ToDo;
+export default memo(ToDo);

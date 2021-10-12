@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, memo } from 'react';
 import ToDo from './ToDo/ToDo.jsx';
 import '../style.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,27 +27,24 @@ const ToDoList = () => {
       break;
   }
 
-  const [inputToDo, setInputToDo] = useState('');
-
   const dispatch = useDispatch();
   useEffect(
     () => localStorage.setItem('todos', JSON.stringify(todos)),
     [todos]
   );
 
-  const handleAddToDo = () => {
-    const newToDoName = inputToDo.trim();
-    if (newToDoName) {
-      dispatch(addToDo({ text: newToDoName, id: Date.now() }));
+  const handleAddToDo = useCallback((e) => {
+    if (e.target.value.trim()) {
+      dispatch(addToDo({ text: e.target.value, id: Date.now() }));
     }
-    setInputToDo('');
-  };
+    e.target.value = '';
+  }, [dispatch]);
 
-  const handleClick = (e) => {
+  const handleClick = useCallback((e) => {
     if (e.code === 'Enter') {
-      handleAddToDo();
+      handleAddToDo(e);
     }
-  };
+  }, [handleAddToDo]);
 
   return (
     <>
@@ -55,8 +52,6 @@ const ToDoList = () => {
         className="todo__input"
         type="text"
         placeholder="What needs to be done"
-        value={inputToDo}
-        onChange={(e) => setInputToDo(e.target.value)}
         onKeyDown={handleClick}
       />
       <ul className={`todos ${filter}`}>
@@ -86,4 +81,4 @@ const ToDoList = () => {
   );
 };
 
-export default ToDoList;
+export default memo(ToDoList);
